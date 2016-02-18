@@ -8,8 +8,8 @@ enable_wss      = true
 enable_ipv6     = true
 
 log_facility    = 'LOG_LOCAL2'
-listen_ip       = 'xxx.xxx.xxx.xxx'
-listen_ipv6     = 'xxxx:xxxx:xxxx:xxxx:xxxx:xxxxx:xxxx'
+listen_ip       = Socket.ip_address_list.select { |a| a.ipv4? && !a.ipv4_loopback? }.first # finds the first non-loopback ip on the box
+listen_ipv6     = Socket.ip_address_list.select { |a| a.ipv6? && !a.ipv6_loopback? }.first # finds the first non-loopback ip on the box
 listen_port     = '5060'
 tls_listen_port = '5061'
 ws_listen_port  = '8080'
