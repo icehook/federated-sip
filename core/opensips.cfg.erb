@@ -66,7 +66,7 @@ loadmodule "proto_ws.so"
 <%-if enable_wss-%>
 loadmodule "proto_wss.so"
 <%-end-%>
-<% if enable_tls  or enable_wss %> 
+<% if enable_tls or enable_wss %> 
 loadmodule "tls_mgm.so"
 <%-end-%>
 loadmodule "signaling.so"
@@ -162,7 +162,7 @@ modparam("stun","alternate_port","6050")
 # ----- rtpengine params ----
 modparam("rtpengine", "rtpengine_sock", "udp:<%= listen_ip %>:60000")
 
-<% if enable_tls  or enable_wss %> 
+<% if enable_tls  or enable_wss %>
 # ----- cert managment for tls and wss ----
 modparam("tls_mgm", "certificate",
          "/etc/letsencrypt/live/mydomain.com/cert.pem")
@@ -189,7 +189,7 @@ modparam("tls_mgm", "private_key",
 # route["sequential_requests"]   - sequential request route processing
 # branch_route["rtpengine"]      - processing for rtpengine flags per branch
 # onreply_route["reply"]         - reply processing for nat and rtpengine flags
-# 
+#
 # helper routes
 # -------------
 # route["to_e164"]               - special processing for e164
@@ -218,7 +218,7 @@ route{
       $ua=~"^sipcli"           )
   {
     xlog("L_INFO","$var(prefix) ban scanner $si\n");
-    exit; 
+    exit;
   }
 
   # kill any requests that we do not handle
@@ -766,4 +766,3 @@ route["challenge_request"] {
     }
   }
 }
-

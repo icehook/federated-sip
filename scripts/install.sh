@@ -67,7 +67,7 @@ function set_user {
 
 
 function install_deps {
- 
+
   if [ "$OS" == "$CENTOS" ] ; then
     # install required deps and build tools
     yum -y install vim-enhanced libcurl-devel ncurses-devel ruby glib2 glib2-devel xmlrpc-c-devel xmlrpc-c sqlite sqlite-devel pcre pcre-devel openssl openssl-devel tcpdump iptables-devel kernel-devel kernel epel-release
@@ -93,13 +93,12 @@ useradd -s /bin/false opensips
 # clone required repos
 cd /usr/local/src
 git clone https://github.com/OpenSIPS/opensips.git
-git clone https://github.com/sipwise/rtpengine.git
 git clone https://github.com/ralight/sqlite3-pcre.git
 
 # build opensips
 cd opensips
 cp Makefile.conf.template Makefile.conf
-sed -i -e 's/include_modules?=/include_modules?= db_sqlite/g' Makefile.conf 
+sed -i -e 's/include_modules?=/include_modules?= db_sqlite/g' Makefile.conf
 #sed -i -e 's/PREFIX=\/usr\/local\//PREFIX=\/usr\/local\/opensips\//g' Makefile.conf
 sed -i -e "s#PREFIX=/usr/local#PREFIX=$PREFIX#g" Makefile.conf
 make all && make all install
@@ -133,15 +132,6 @@ then
   # make all our domains unauthenticated
   sqlite3 /var/db/opensips/opensips "update domain set attrs='noauth';"
 fi
-# build rtpengine daemon
-
-cd /usr/local/src/rtpengine/daemon
-git checkout -t origin/mr4.0.1
-make
-mkdir /usr/local/rtpengine && cp rtpengine /usr/local/rtpengine/
-
-# start rtpengine
-/usr/local/rtpengine/rtpengine -p /var/run/rtpengine.pid --interface $IP --listen-ng $IP:60000 -m 50000 -M 55000 -E -L 3 &
 
 # build sqlite pcre extension
 cd /usr/local/src/sqlite3-pcre
@@ -197,4 +187,3 @@ then
  echo "PASSWORD: ilikeopensips$NUM"
 fi
 echo "PROXY   : $IP"
-
