@@ -1,4 +1,4 @@
-Containerized OpenSIPS and RTPEngine
+Containerized OpenSIPS and rtpengine
 ====================
 
 RTPEngine
